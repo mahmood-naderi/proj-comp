@@ -1,0 +1,12 @@
+fun test() {
+	print(a);
+}
+
+fun mamali() {
+	print(b);
+}
+
+fun main() {
+	print(c);
+}
+
