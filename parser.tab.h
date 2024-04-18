@@ -60,7 +60,9 @@ extern int yydebug;
     RCURL = 261,                   /* RCURL  */
     LCURL = 262,                   /* LCURL  */
     DIGIT = 263,                   /* DIGIT  */
-    IDENT = 264                    /* IDENT  */
+    IDENT = 264,                   /* IDENT  */
+    PRINT = 265,                   /* PRINT  */
+    SEMICOLON = 266                /* SEMICOLON  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -73,7 +75,7 @@ union YYSTYPE
 
 	char *op_value;
 
-#line 77 "parser.tab.h"
+#line 79 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

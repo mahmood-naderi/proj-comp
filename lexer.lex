@@ -12,6 +12,8 @@ char *create_string(char *value, int length) {
 
 %%
 
+"print" { return PRINT; }
+";" { return SEMICOLON; }
 "fun" { return FUNC; }
 "(" { return RPRAN; }
 ")" { return LPRAN; }

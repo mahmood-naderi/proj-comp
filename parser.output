@@ -1,8 +1,3 @@
-Terminals unused in grammar
-
-    DIGIT
-
-
 Grammar
 
     0 $accept: program $end
@@ -12,7 +7,15 @@ Grammar
     2 functions: function functions
     3          | ε
 
-    4 function: FUNC IDENT RPRAN LPRAN RCURL LCURL
+    4 function: FUNC IDENT RPRAN LPRAN RCURL statements LCURL
+
+    5 statements: statement statements
+    6           | ε
+
+    7 statement: PRINT RPRAN variable LPRAN SEMICOLON
+
+    8 variable: IDENT
+    9         | DIGIT
 
 
 Terminals, with rules where they appear
@@ -20,27 +23,38 @@ Terminals, with rules where they appear
     $end (0) 0
     error (256)
     FUNC (258) 4
-    RPRAN (259) 4
-    LPRAN (260) 4
+    RPRAN (259) 4 7
+    LPRAN (260) 4 7
     RCURL (261) 4
     LCURL (262) 4
-    DIGIT <op_value> (263)
-    IDENT <op_value> (264) 4
+    DIGIT <op_value> (263) 9
+    IDENT <op_value> (264) 4 8
+    PRINT (265) 7
+    SEMICOLON (266) 7
 
 
 Nonterminals, with rules where they appear
 
-    $accept (10)
+    $accept (12)
         on left: 0
-    program (11)
+    program (13)
         on left: 1
         on right: 0
-    functions (12)
+    functions (14)
         on left: 2 3
         on right: 1 2
-    function (13)
+    function (15)
         on left: 4
         on right: 2
+    statements (16)
+        on left: 5 6
+        on right: 4 5
+    statement (17)
+        on left: 7
+        on right: 5
+    variable (18)
+        on left: 8 9
+        on right: 7
 
 
 State 0
@@ -58,7 +72,7 @@ State 0
 
 State 1
 
-    4 function: FUNC • IDENT RPRAN LPRAN RCURL LCURL
+    4 function: FUNC • IDENT RPRAN LPRAN RCURL statements LCURL
 
     IDENT  shift, and go to state 5
 
@@ -91,7 +105,7 @@ State 4
 
 State 5
 
-    4 function: FUNC IDENT • RPRAN LPRAN RCURL LCURL
+    4 function: FUNC IDENT • RPRAN LPRAN RCURL statements LCURL
 
     RPRAN  shift, and go to state 8
 
@@ -112,27 +126,110 @@ State 7
 
 State 8
 
-    4 function: FUNC IDENT RPRAN • LPRAN RCURL LCURL
+    4 function: FUNC IDENT RPRAN • LPRAN RCURL statements LCURL
 
     LPRAN  shift, and go to state 9
 
 
 State 9
 
-    4 function: FUNC IDENT RPRAN LPRAN • RCURL LCURL
+    4 function: FUNC IDENT RPRAN LPRAN • RCURL statements LCURL
 
     RCURL  shift, and go to state 10
 
 
 State 10
 
-    4 function: FUNC IDENT RPRAN LPRAN RCURL • LCURL
+    4 function: FUNC IDENT RPRAN LPRAN RCURL • statements LCURL
 
-    LCURL  shift, and go to state 11
+    PRINT  shift, and go to state 11
+
+    $default  reduce using rule 6 (statements)
+
+    statements  go to state 12
+    statement   go to state 13
 
 
 State 11
 
-    4 function: FUNC IDENT RPRAN LPRAN RCURL LCURL •
+    7 statement: PRINT • RPRAN variable LPRAN SEMICOLON
+
+    RPRAN  shift, and go to state 14
+
+
+State 12
+
+    4 function: FUNC IDENT RPRAN LPRAN RCURL statements • LCURL
+
+    LCURL  shift, and go to state 15
+
+
+State 13
+
+    5 statements: statement • statements
+
+    PRINT  shift, and go to state 11
+
+    $default  reduce using rule 6 (statements)
+
+    statements  go to state 16
+    statement   go to state 13
+
+
+State 14
+
+    7 statement: PRINT RPRAN • variable LPRAN SEMICOLON
+
+    DIGIT  shift, and go to state 17
+    IDENT  shift, and go to state 18
+
+    variable  go to state 19
+
+
+State 15
+
+    4 function: FUNC IDENT RPRAN LPRAN RCURL statements LCURL •
 
     $default  reduce using rule 4 (function)
+
+
+State 16
+
+    5 statements: statement statements •
+
+    $default  reduce using rule 5 (statements)
+
+
+State 17
+
+    9 variable: DIGIT •
+
+    $default  reduce using rule 9 (variable)
+
+
+State 18
+
+    8 variable: IDENT •
+
+    $default  reduce using rule 8 (variable)
+
+
+State 19
+
+    7 statement: PRINT RPRAN variable • LPRAN SEMICOLON
+
+    LPRAN  shift, and go to state 20
+
+
+State 20
+
+    7 statement: PRINT RPRAN variable LPRAN • SEMICOLON
+
+    SEMICOLON  shift, and go to state 21
+
+
+State 21
+
+    7 statement: PRINT RPRAN variable LPRAN SEMICOLON •
+
+    $default  reduce using rule 7 (statement)
